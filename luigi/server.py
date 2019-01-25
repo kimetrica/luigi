@@ -271,23 +271,23 @@ class ByParamsHandler(BaseTaskHistoryHandler):
 
 class RootPathHandler(BaseTaskHistoryHandler):
     def get(self):
-        self.redirect("/static/visualiser/index.html")
+        self.redirect("/scheduler/static/visualiser/index.html")
 
 
 def app(scheduler):
-    settings = {"static_path": os.path.join(os.path.dirname(__file__), "static"),
+    settings = {"static_path": os.path.join(os.path.dirname(__file__), "scheduler/static"),
                 "unescape": tornado.escape.xhtml_unescape,
                 "compress_response": True,
                 }
     handlers = [
-        (r'/api/(.*)', RPCHandler, {"scheduler": scheduler}),
-        (r'/', RootPathHandler, {'scheduler': scheduler}),
-        (r'/tasklist', AllRunHandler, {'scheduler': scheduler}),
-        (r'/tasklist/(.*?)', SelectedRunHandler, {'scheduler': scheduler}),
-        (r'/history', RecentRunHandler, {'scheduler': scheduler}),
-        (r'/history/by_name/(.*?)', ByNameHandler, {'scheduler': scheduler}),
-        (r'/history/by_id/(.*?)', ByIdHandler, {'scheduler': scheduler}),
-        (r'/history/by_params/(.*?)', ByParamsHandler, {'scheduler': scheduler})
+        (r'/scheduler/api/(.*)', RPCHandler, {"scheduler": scheduler}),
+        (r'/scheduler/', RootPathHandler, {'scheduler': scheduler}),
+        (r'/scheduler/tasklist', AllRunHandler, {'scheduler': scheduler}),
+        (r'/scheduler/tasklist/(.*?)', SelectedRunHandler, {'scheduler': scheduler}),
+        (r'/scheduler/history', RecentRunHandler, {'scheduler': scheduler}),
+        (r'/scheduler/history/by_name/(.*?)', ByNameHandler, {'scheduler': scheduler}),
+        (r'/scheduler/history/by_id/(.*?)', ByIdHandler, {'scheduler': scheduler}),
+        (r'/scheduler/history/by_params/(.*?)', ByParamsHandler, {'scheduler': scheduler})
     ]
     api_app = tornado.web.Application(handlers, **settings)
     return api_app
